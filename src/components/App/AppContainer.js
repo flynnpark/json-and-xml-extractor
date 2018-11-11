@@ -7,22 +7,22 @@ class AppContainer extends Component {
     extractFormatList: ['XML', 'JSON'],
     supplierList: [
       {
-        id: 'supplier A',
+        id: 'supplierA',
         name: '공급사 A',
         data: []
       },
       {
-        id: 'supplier B',
+        id: 'supplierB',
         name: '공급사 B',
         data: []
       },
       {
-        id: 'supplier C',
+        id: 'supplierC',
         name: '공급사 C',
         data: []
       },
       {
-        id: 'supplier D',
+        id: 'supplierD',
         name: '공급사 D',
         data: []
       }
@@ -68,7 +68,7 @@ class AppContainer extends Component {
       return null;
     });
     const result = {
-      supplierList: supplierResult,
+      supplierResult,
       dataFormat: 'JSON'
     };
     return JSON.stringify(result, null, 2);
@@ -76,16 +76,21 @@ class AppContainer extends Component {
 
   getXmlResult = () => {
     const { supplierList } = this.state;
-    const supplierResult = [];
+    let supplierResult = {};
     supplierList.map(supplier => {
       if (supplier.data.length > 0) {
-        supplierResult.push(supplier);
+        supplierResult = {
+          ...supplierResult,
+          [supplier.id]: {
+            data: supplier.data
+          }
+        };
         return null;
       }
       return null;
     });
     const result = {
-      supplier: supplierResult,
+      ...supplierResult,
       dataFormat: 'XML'
     };
     return js2xml.parse('result', result);

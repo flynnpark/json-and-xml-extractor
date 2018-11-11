@@ -28,7 +28,7 @@ const DataSetPresenter = props => {
       <h2>데이터셋</h2>
       <DataSetList>
         {dataSet.map(data => (
-          <DataItem>{data}</DataItem>
+          <DataItem key={data}>{data}</DataItem>
         ))}
       </DataSetList>
     </DataSetWrapper>
