@@ -3,14 +3,19 @@ import styled from 'styled-components';
 
 const SupplierListWrapper = styled.div`
   display: flex;
+  background-color: #fff;
   flex-direction: column;
-  width: 100%;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0px 0px 15px #e3e3e3;
+  margin-top: 30px;
 `;
 
 const SupplierRow = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
+  align-items: center;
 `;
 
 const SupplierName = styled.div`
@@ -19,33 +24,31 @@ const SupplierName = styled.div`
   margin-right: 10px;
 `;
 
-const DataItem = styled.label`
+const DataItem = styled.span`
   display: flex;
-  margin-right: 8px;
+  margin-left: 8px;
   :last-child {
-    margin-right: 0;
+    margin-left: 0;
   }
 `;
 
 const SupplierListPresenter = props => {
-  const { supplierList, dataSet, handleSetData } = props;
+  const { checkedList, supplierList, handleSetData } = props;
   return (
     <SupplierListWrapper>
       <h2>공급사별 데이터</h2>
       {supplierList.map(supplier => (
         <SupplierRow key={supplier.id}>
+          <input
+            type="checkbox"
+            name={supplier.id}
+            value={supplier.id}
+            checked={checkedList.includes(supplier.id) ? true : false}
+            onChange={() => handleSetData(supplier.id)}
+          />
           <SupplierName>{supplier.name}</SupplierName>
-          {dataSet.map(data => (
-            <DataItem key={data}>
-              <input
-                type="checkbox"
-                name={data}
-                value={data}
-                checked={supplier.data.includes(data) ? true : false}
-                onChange={event => handleSetData(supplier.id, data)}
-              />
-              {data}
-            </DataItem>
+          {supplier.data.map(item => (
+            <DataItem key={item}>{item}</DataItem>
           ))}
         </SupplierRow>
       ))}

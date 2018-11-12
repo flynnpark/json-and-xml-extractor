@@ -5,26 +5,27 @@ import AppPresenter from './AppPresenter';
 class AppContainer extends Component {
   state = {
     extractFormatList: ['XML', 'JSON'],
+    checkedList: [],
     supplierList: [
       {
         id: 'supplierA',
         name: '공급사 A',
-        data: []
+        data: ['카메라', 'Macbook', 'S9', '볼펜']
       },
       {
         id: 'supplierB',
         name: '공급사 B',
-        data: []
+        data: ['TV', 'Computer', 'iPhone X']
       },
       {
         id: 'supplierC',
         name: '공급사 C',
-        data: []
+        data: ['Macbook', 'iPhone X', 'G7', '벤츠']
       },
       {
         id: 'supplierD',
         name: '공급사 D',
-        data: []
+        data: ['iPhone X', 'S9', 'G7']
       }
     ],
     dataSet: [
@@ -40,28 +41,29 @@ class AppContainer extends Component {
     ]
   };
 
-  handleSetData = (supplierId, data) => {
-    const newSupplierList = this.state.supplierList.map(supplier => {
+  handleSetData = supplierId => {
+    const { checkedList, supplierList } = this.state;
+    supplierList.map(supplier => {
       if (supplier.id === supplierId) {
-        if (supplier.data.includes(data)) {
-          supplier.data.splice(supplier.data.indexOf(data), 1);
+        if (checkedList.includes(supplierId)) {
+          checkedList.splice(checkedList.indexOf(supplierId), 1);
         } else {
-          supplier.data.push(data);
+          checkedList.push(supplierId);
         }
       }
       return supplier;
     });
     this.setState({
       ...this.state,
-      supplierList: newSupplierList
+      checkedList
     });
   };
 
   getJsonResult = () => {
-    const { supplierList } = this.state;
+    const { checkedList, supplierList } = this.state;
     const supplierResult = [];
     supplierList.map(supplier => {
-      if (supplier.data.length > 0) {
+      if (checkedList.includes(supplier.id)) {
         supplierResult.push(supplier);
         return null;
       }
@@ -75,10 +77,10 @@ class AppContainer extends Component {
   };
 
   getXmlResult = () => {
-    const { supplierList } = this.state;
+    const { checkedList, supplierList } = this.state;
     let supplierResult = {};
     supplierList.map(supplier => {
-      if (supplier.data.length > 0) {
+      if (checkedList.includes(supplier.id)) {
         supplierResult = {
           ...supplierResult,
           [supplier.id]: {
@@ -116,9 +118,15 @@ class AppContainer extends Component {
   };
 
   render() {
-    const { supplierList, dataSet, extractFormatList } = this.state;
+    const {
+      checkedList,
+      supplierList,
+      dataSet,
+      extractFormatList
+    } = this.state;
     return (
       <AppPresenter
+        checkedList={checkedList}
         supplierList={supplierList}
         dataSet={dataSet}
         extractFormatList={extractFormatList}

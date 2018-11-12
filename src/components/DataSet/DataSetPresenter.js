@@ -3,8 +3,12 @@ import styled from 'styled-components';
 
 const DataSetWrapper = styled.div`
   display: flex;
+  background-color: #fff;
   flex-direction: column;
-  width: 100%;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0px 0px 15px #e3e3e3;
+  margin-top: 30px;
 `;
 
 const DataSetList = styled.div`
@@ -15,7 +19,6 @@ const DataSetList = styled.div`
 
 const DataItem = styled.span`
   margin-right: 10px;
-
   :last-child {
     margin: 0;
   }
