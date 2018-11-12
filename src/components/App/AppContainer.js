@@ -99,7 +99,8 @@ class AppContainer extends Component {
   };
 
   downloadResult = resultType => {
-    const element = document.createElement('a');
+    // const element = document.createElement('a');
+    const reader = new FileReader();
     let result;
     if (resultType === 'json') {
       result = new Blob([this.getJsonResult()], {
@@ -111,9 +112,13 @@ class AppContainer extends Component {
       });
     }
     if (result !== null) {
-      element.href = URL.createObjectURL(result);
-      element.download = `result.${resultType}`;
-      element.click();
+      reader.onload = e => {
+        window.location.href = reader.result;
+      };
+      reader.readAsDataURL(result);
+      // element.href = URL.createObjectURL(result);
+      // element.download = `result.${resultType}`;
+      // element.click();
     }
   };
 
